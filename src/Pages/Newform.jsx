@@ -7,13 +7,17 @@ export default function Newform() {
   return (
 
     <div>
-            <div className="newFormContainer">
-                <div className='newForm'>
+    <div className="newFormContainer">
+    <div className='newForm'>
         <div className='newHeader'>
-          <h>  Add New Income Or Expense </h>
+                  <div class="form-icon">
+          <i class="fas fa-seedling"></i>
+        </div>
+          <h2>  Add New Income Or Expense </h2>
         </div>
         
-<Form>    
+  <Form>  
+    <div className='newformgrid'>
  <div className="formRow">
         <label>Date:</label>
             <Form.Control
@@ -67,7 +71,7 @@ export default function Newform() {
   <Button variant="primary" type="submit">
     Submit
   </Button>
-
+</div>  
 </Form>
     </div>
     </div>

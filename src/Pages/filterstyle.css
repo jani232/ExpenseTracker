@@ -1,0 +1,21 @@
+.filtercategoryRow{
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.filtercategoryCard{
+    text-align: center;
+    cursor: pointer;
+}
+
+.filtercategoryImage{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #0d3a67;
+    padding: 10px;
+    background-color: white;
+}

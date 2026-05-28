@@ -5,9 +5,11 @@ import Newform from "./Pages/Newform";
 import Sidebar from "./Component/Sidebar";
 import Navbar from "./Component/Navbar";
 import { useState } from "react";
+import FilterCategory from "./Pages/FilterCategory";
+
 
 function App() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
     <Router>
@@ -16,10 +18,12 @@ function App() {
 
       <Sidebar open={open} />
 
+    
       <div className={`content ${open ? "shift" : ""}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Newform" element={<Newform />} />
+          <Route path="/FilterCategory" element={<FilterCategory />} />
         </Routes>
       </div>
 

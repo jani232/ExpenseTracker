@@ -1,27 +1,12 @@
+
 body{
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+    padding: 0;
 }
 
-/* NAVBAR */
 
-.navbar{
-    height: 60px;
-    background-color: #1e293b;
-    color: white;
-
-    display: flex;
-    align-items: center;
-
-    padding: 0 20px;
-
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-
-    z-index: 1000;
-}
 
 .menuBtn{
     border: none;
@@ -39,8 +24,9 @@ body{
 
 .sidebar{
     width: 250px;
-    height: 100vh;
-    background-color: #0f172a;
+    height: calc(100vh - 60px);
+
+    background-color: #0d3a67;
     color: white;
 
     position: fixed;
@@ -52,6 +38,8 @@ body{
     transition: 0.3s;
 
     box-sizing: border-box;
+
+    overflow-y: auto;
 }
 
 .sidebar.close{
@@ -79,7 +67,10 @@ body{
 
 .content{
     padding: 90px 40px;
-    transition: 0.3s;
+    margin-left: 0;
+    min-height: 100vh;
+
+    transition: margin-left 0.3s ease;
 }
 
 .content.shift{
@@ -90,14 +81,14 @@ body{
 
 .navbar{
     height: 60px;
-    background-color: #1e293b;
+    background-color:#0d3a67;
     color: white;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: 0 20px;
+
 
     position: fixed;
     top: 0;
@@ -105,6 +96,11 @@ body{
     right: 0;
 
     z-index: 1000;
+    width:100%;
+
+      margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .navLeft{

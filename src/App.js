@@ -18,6 +18,7 @@ function App() {
 
       <Sidebar open={open} />
 
+<div className="App">
     
       <div className={`content ${open ? "shift" : ""}`}>
         <Routes>
@@ -26,7 +27,7 @@ function App() {
           <Route path="/FilterCategory" element={<FilterCategory />} />
         </Routes>
       </div>
-
+</div>
     </Router>
   );
 }

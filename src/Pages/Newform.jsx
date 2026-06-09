@@ -13,6 +13,7 @@ export default function Newform() {
     price: ""
   });
 
+
   const handleChange = (e) => {
     setvalue({
       ...value,
@@ -26,8 +27,10 @@ export default function Newform() {
     const existingValue =
       JSON.parse(localStorage.getItem("values")) || [];
 
+    const setPrice = value.type==="Income" ? Number(value.price) : -Number(value.price);
     const newValue = {
       ...value,
+      price:setPrice,
       id: Date.now()
     };
 
@@ -35,8 +38,8 @@ export default function Newform() {
 
     localStorage.setItem("values", JSON.stringify(updatedValue));
 
-        console.log("Form Data:", value); //usefull for debgging, we dont need it mandotory 
-    alert(`Date: ${value.date}\name: ${value.name}\n`);
+        console.log("Form Data:", value);  
+    alert(`Date: ${value.date}\nType: ${value.type}\nName: ${value.name}\nCategory: ${value.category}\nValue: ${newValue.price}`);
 
     setvalue({
       date: "",
@@ -70,10 +73,7 @@ export default function Newform() {
                 <label>Date:</label>
 
                 <Form.Control
-                  type="date"
-                  name="date"
-                  value={value.date}
-                  onChange={handleChange}
+                  type="date" name="date" value={value.date} onChange={handleChange}
                 />
               </div>
 
@@ -82,9 +82,7 @@ export default function Newform() {
                 <label>Type:</label>
 
                 <Form.Select
-                  name="type"
-                  value={value.type}
-                  onChange={handleChange}
+                  name="type" value={value.type} onChange={handleChange}
                 >
                   <option value="">Select Type</option>
                   <option value="Income">Income</option>

@@ -65,10 +65,7 @@ export default function FilterCategory() {
       <p>Search By Name</p>
       <div className='search'>
         <input
-          type="text"
-          placeholder='Search By Name....' 
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          type="text" placeholder='Search By Name....' value={search} onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 

@@ -10,7 +10,6 @@ export default function Sidebar({ open }) {
        <Link to="/"><li>Home</li></Link> 
         <Link to ="/FilterCategory"><li>Filter Category</li></Link>
         <Link to="/Newform"><li>Add New </li></Link>
-        <li>Settings</li>
       </ul>
 
     </div>

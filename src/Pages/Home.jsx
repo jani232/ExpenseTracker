@@ -36,7 +36,7 @@ export default function Home() {
 
 
   const pieData = [
-    { name: "Balance", value: balance, color: "#4CAF50" },
+    { name: "Balance", value: balance, color: "#f9a825" },
     { name: "Expense", value: expense, color: "#F44336" },
   ];
 
@@ -187,65 +187,76 @@ console.log("Chart Data:", chartData);
 
 
   return (
-    <div>
- 
-      <div className="summery">
-        <div className="summeryCard1">
-          <h3>Monthly Income</h3>
-          <p>Rs. {income}</p>
-        </div>
+<div className="dashboardModern">
 
-        <div className="summeryCard2">
-          <h3>Expense</h3>
-          <p>Rs. {expense}</p>
-        </div>
+  {/* TOP SECTION: Summary + Pie Chart */}
+  <div className="chartGrid">
 
-        <div className="summeryCard3">
-          <h3>Balance</h3>
-          <p>Rs. {balance}</p>
-        </div>
+    {/* LEFT: Summary */}
+    <div className="summery">
+      <div className="summeryCard1">
+        <h3>Monthly Income</h3>
+        <p>Rs. {income}</p>
       </div>
 
- 
-      <div style={{ width: "450px", height: "350px", margin: "40px auto" }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={pieData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={120}
-              label
-            >
-              {pieData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
+      <div className="summeryCard2">
+        <h3>Expense</h3>
+        <p>Rs. {expense}</p>
       </div>
 
-
-      <div style={{ width: "90%", height: "400px", margin: "40px auto" }}>
-  <ResponsiveContainer width="100%" height="100%">
-    <BarChart data={chartData}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="month" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-
-      <Bar dataKey="income" fill="#4CAF50" name="Income" />
-      <Bar dataKey="expense" fill="#F44336" name="Expense" />
-    </BarChart>
-  </ResponsiveContainer>
-</div>
+      <div className="summeryCard3">
+        <h3>Balance</h3>
+        <p>Rs. {balance}</p>
+      </div>
     </div>
+
+    {/* RIGHT: Pie Chart */}
+    <div className="pieChartBox">
+      <div className="chartTitle">Balance vs Expense</div>
+
+      <ResponsiveContainer width="100%" height={300}>
+        <PieChart>
+          <Pie
+            data={pieData}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={110}
+            label
+          >
+            {pieData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+
+          <Tooltip />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+
+  </div>
+
+  {/* BOTTOM: Bar Chart */}
+  <div className="barChartBox">
+    <div className="chartTitle">Income vs Expense Monthly Trend</div>
+
+    <ResponsiveContainer width="100%" height={350}>
+      <BarChart data={chartData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="month" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+
+        <Bar dataKey="income" fill="#4CAF50" name="Income" />
+        <Bar dataKey="expense" fill="#F44336" name="Expense" />
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+
+</div>
 
 
 

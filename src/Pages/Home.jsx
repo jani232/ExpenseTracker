@@ -6,8 +6,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  LineChart,
-  Line,
   BarChart,
   Bar,
   XAxis,
@@ -25,7 +23,7 @@ export default function Home() {
     setData(storedData);
   }, []);
 
-  // ---------- TOTALS ----------
+
   const income = data
     .filter((item) => item.type === "Income")
     .reduce((total, item) => total + Number(item.price), 0);
@@ -36,37 +34,161 @@ export default function Home() {
 
   const balance = income - expense;
 
-  // ---------- PIE DATA ----------
+
   const pieData = [
     { name: "Balance", value: balance, color: "#4CAF50" },
     { name: "Expense", value: expense, color: "#F44336" },
   ];
 
-  // ---------- MONTHLY GROUPING ----------
-  const monthlyData = {};
 
-  data.forEach((item) => {
-    const month = new Date(item.date).toLocaleString("default", {
-      month: "short",
-      year: "numeric",
-    });
+// Start with an empty object
+const monthlyData = {};
 
-    if (!monthlyData[month]) {
-      monthlyData[month] = { month, income: 0, expense: 0 };
-    }
+// Example data:
+// [
+//   { type: "Income", price: 5000, date: "2026-01-15" },
+//   { type: "Expense", price: 2000, date: "2026-01-20" },
+//   { type: "Income", price: 3000, date: "2026-02-10" }
+// ]
 
-    if (item.type === "Income") {
-      monthlyData[month].income += Number(item.price);
-    } else {
-      monthlyData[month].expense += Math.abs(Number(item.price));
-    }
+data.forEach((item) => {
+
+  // Convert the date string into a Date object
+  const date = new Date(item.date);
+
+  // For "2026-01-15"
+  // monthKey becomes "2026-0"
+  // (0 means January)
+  const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+
+  // Create a display label
+  // "Jan 2026"
+  const monthLabel = date.toLocaleString("default", {
+    month: "short",
+    year: "numeric",
   });
 
-  const chartData = Object.values(monthlyData);
+  // Check whether this month already exists
+  if (!monthlyData[monthKey]) {
+
+    // FIRST ITERATION
+    // item = { Income, 5000, Jan 15 }
+
+    monthlyData[monthKey] = {
+      month: monthLabel,
+      sortDate: new Date(date.getFullYear(), date.getMonth(), 1),
+      income: 0,
+      expense: 0,
+    };
+
+    /*
+    monthlyData now becomes:
+
+    {
+      "2026-0": {
+        month: "Jan 2026",
+        sortDate: Jan 1 2026,
+        income: 0,
+        expense: 0
+      }
+    }
+    */
+  }
+
+  // If transaction is income
+  if (item.type === "Income") {
+
+    monthlyData[monthKey].income += Number(item.price);
+
+    /*
+    After adding first income (5000):
+
+    {
+      "2026-0": {
+        month: "Jan 2026",
+        income: 5000,
+        expense: 0
+      }
+    }
+    */
+
+  } else {
+
+    // If transaction is expense
+    monthlyData[monthKey].expense += Math.abs(Number(item.price));
+
+    /*
+    Second iteration:
+    item = { Expense, 2000, Jan 20 }
+
+    monthKey already exists,
+    so we don't create a new month.
+
+    After adding expense:
+
+    {
+      "2026-0": {
+        month: "Jan 2026",
+        income: 5000,
+        expense: 2000
+      }
+    }
+    */
+  }
+
+  /*
+  Third iteration:
+  item = { Income, 3000, Feb 10 }
+
+  monthKey = "2026-1"
+
+  Since February doesn't exist yet,
+  create a new month:
+
+  {
+    "2026-0": {
+      month: "Jan 2026",
+      income: 5000,
+      expense: 2000
+    },
+
+    "2026-1": {
+      month: "Feb 2026",
+      income: 0,
+      expense: 0
+    }
+  }
+
+  Then add the income:
+
+  {
+    "2026-0": {
+      month: "Jan 2026",
+      income: 5000,
+      expense: 2000
+    },
+
+    "2026-1": {
+      month: "Feb 2026",
+      income: 3000,
+      expense: 0
+    }
+  }
+  */
+
+});
+
+const chartData = Object.values(monthlyData).sort(
+  (a, b) => a.sortDate - b.sortDate
+);
+
+console.log("Data:", data);
+console.log("Chart Data:", chartData);
+
 
   return (
     <div>
-      {/* ---------- SUMMARY CARDS ---------- */}
+ 
       <div className="summery">
         <div className="summeryCard1">
           <h3>Monthly Income</h3>
@@ -84,7 +206,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ---------- PIE CHART ---------- */}
+ 
       <div style={{ width: "450px", height: "350px", margin: "40px auto" }}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -108,34 +230,7 @@ export default function Home() {
         </ResponsiveContainer>
       </div>
 
-      {/* ---------- LINE CHART ---------- */}
-      <div style={{ width: "90%", height: "400px", margin: "40px auto" }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
 
-            <Line
-              type="monotone"
-              dataKey="income"
-              stroke="#4CAF50"
-              strokeWidth={2}
-            />
-
-            <Line
-              type="monotone"
-              dataKey="expense"
-              stroke="#F44336"
-              strokeWidth={2}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-
-{/*bar cahar*/}
       <div style={{ width: "90%", height: "400px", margin: "40px auto" }}>
   <ResponsiveContainer width="100%" height="100%">
     <BarChart data={chartData}>
